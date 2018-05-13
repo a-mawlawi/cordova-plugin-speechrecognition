@@ -94,7 +94,6 @@
         self.recognitionTask = [self.speechRecognizer recognitionTaskWithRequest:self.recognitionRequest resultHandler:^(SFSpeechRecognitionResult *result, NSError *error) {
 
             if ( result ) {
-
                 NSMutableArray *resultArray = [[NSMutableArray alloc] init];
 
                 int counter = 0;
@@ -140,6 +139,13 @@
 
                 self.recognitionRequest = nil;
                 self.recognitionTask = nil;
+
+                if (showPartial){
+                    NSLog(@"our perfect code");
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"error.description"];
+                    [pluginResult setKeepCallbackAsBool:YES];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                }
             }
         }];
 
